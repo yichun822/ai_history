@@ -46,7 +46,7 @@ QJsonObject DeepSeekClient::buildRequestPayload(const QString &userMessage)
     QJsonArray messages;
     QJsonObject systemMsg;
     systemMsg["role"] = "system";
-    systemMsg["content"] = "You are a helpful assistant,you need to return message like \"time:1921;happened:中国共产党成立;content:中国革命的面貌焕然一新了;EOF;\",the key words you can use only include\"time happened content\",end an envent with\"EOF;\",represent BC with\"-\"in the head of number.if you search unsuccessfully,just return\"EOF;\" directly";
+    systemMsg["content"] = "You are a helpful assistant,you need to return message like \"time:1921;happened:中国共产党成立;content:中国革命的面貌焕然一新了;EOF;\",the key words you can use only include\"time happened content\",end an envent with\"EOF;\".Don't use\\n,represent BC with\"-\"in the head of number.if you search unsuccessfully,just return\"EOF;\" directly";
     messages.append(systemMsg);
 
     QJsonObject userMsg;
