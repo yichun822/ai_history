@@ -36,17 +36,19 @@ void DeepSeekClient::sendMessage(const QString &userMessage)
 
     m_networkManager.post(request, data);
 }
-
+extern QString system_prompt;
 QJsonObject DeepSeekClient::buildRequestPayload(const QString &userMessage)
 {
     QJsonObject payload;
-    payload["model"] = "deepseek-chat";   // 模型名称，根据文档填写
+    payload["model"] = "deepseek-v4-flash";   // 模型名称，根据文档填写
     payload["stream"] = false;             // 非流式响应
+    payload["temperature"] = 0.0;
 
     QJsonArray messages;
     QJsonObject systemMsg;
     systemMsg["role"] = "system";
-    systemMsg["content"] = "You are a helpful assistant,you need to return message like \"time:1921;happened:中国共产党成立;content:中国革命的面貌焕然一新了;EOF;\",the key words you can use only include\"time happened content\",end an envent with\"EOF;\".Don't use\\n,represent BC with\"-\"in the head of number.if you search unsuccessfully,just return\"EOF;\" directly";
+    //systemMsg["content"] = "return message like \"time:xxx;happened:xxx;content:xxx;EOF;\",the key words you can use only include\"time happened content\",end an envent with\"EOF;\".Don't use\\n.Do not generate time ranges, only generate time points.Represent BC with\"-\"in the head of number.if you search unsuccessfully,just return\"EOF;\" directly";
+    systemMsg["content"] = system_prompt;
     messages.append(systemMsg);
 
     QJsonObject userMsg;
@@ -100,3 +102,5 @@ void DeepSeekClient::handleResponse(QNetworkReply *reply)
 
     emit responseReceived(content);
 }
+
+QString system_prompt="The user will provide some historical question,and you need to return answers. Please only parse the \"time\" \"happened\" and \"content\" and output them in JSON format in Chinese. \n EXAMPLE INPUT: \n xxx \n EXAMPLE JSON OUTPUT:\n[{\"time\": \"xxx\",\"happened\": \"xxx\",\"content\": \"xxx\"},{\"time\": \"xxx\",\"happened\": \"xxx\",\"content\": \"xxx\"}].Do not generate time ranges, only generate time points.Represent BC with\"-\"in the head of number.";

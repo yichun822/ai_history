@@ -10,7 +10,7 @@
 
 class message_struct {
 public:
-    int time;
+    QString time;
     QString happened;
     QString content;
     bool operator>(const message_struct &other) const {

@@ -24,9 +24,9 @@ void MyWidget::paintEvent(QPaintEvent *event) {
     for (int i = 0; i < will_print.size(); i++) {
         QRect c(250*i+10,0,230,this->height()/2-8);
         QRect t(250*i+10,this->height()/2+5,230,20);
-        QRect h(250*i+10,this->height()/2+30,230,20);
+        QRect h(250*i+10,this->height()/2+30,230,this->height()/2-35);
         painter.drawText(c, Qt::AlignBottom | Qt::AlignHCenter | Qt::TextWordWrap, p->content);
-        painter.drawText(t,Qt::AlignHCenter,QString::number(p->time));
+        painter.drawText(t,Qt::AlignHCenter,p->time);
         painter.drawText(h,Qt::AlignHCenter | Qt::TextWordWrap,p->happened);
         ++p;
         painter.drawLine(250*i+125,this->height()/2-3,250*i+125,this->height()/2);
